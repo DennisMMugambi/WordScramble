@@ -8,18 +8,45 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State
+    private var usedWords = [String]()
+    
+    @State
+    private var rootWord = ""
+    
+    @State
+    private var newWord = ""
+    
     var body: some View {
-        List(0..<5) {
-            Text("Dynamic row \($0)")
+        NavigationView {
+            List {
+                Section {
+                    TextField("Enter your word", text: $newWord)
+                }
+                
+                Section {
+                    ForEach(usedWords, id: \.self) { word in
+                        Text(word)
+                    }
+                }
+            }
+            .navigationTitle(rootWord)
+            .onSubmit(addNewWord)
         }
     }
     
-    func getFile() {
-        if let fileURL = Bundle.main.url(forResource: "some-file", withExtension: "txt") {
-            if let fileContents = try? String(contentsOf: fileURL) {
-                // we loaded the file into a string!
-            }
-        }
+    func addNewWord() {
+        
+        //lowercase and trim the word, to make sure we don't add duplicate words with case differences
+        let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        //exit if the remaining string is empty
+        guard answer.count > 0 else { return }
+        
+        //extra validation to come
+        usedWords.insert(answer, at: 0)
+        newWord = ""
     }
 }
 
