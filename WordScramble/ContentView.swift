@@ -13,6 +13,12 @@ struct ContentView: View {
             Text("Dynamic row \($0)")
         }
     }
+    
+    func getFile() {
+        if let fileURL = Bundle.main.url(forResource: "some-file", withExtension: "txt") {
+            
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
